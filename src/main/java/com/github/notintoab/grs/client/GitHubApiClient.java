@@ -2,8 +2,10 @@ package com.github.notintoab.grs.client;
 
 import java.util.List;
 
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import com.github.notintoab.grs.exception.GitHubResponseFilter;
 import com.github.notintoab.grs.model.Branch;
 import com.github.notintoab.grs.model.Repo;
 
@@ -18,6 +20,7 @@ import jakarta.ws.rs.core.MediaType;
 @RegisterRestClient
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RegisterProvider(GitHubResponseFilter.class)
 public interface GitHubApiClient {
     @GET
     @Path("/users/{ownerLogin}/repos")
