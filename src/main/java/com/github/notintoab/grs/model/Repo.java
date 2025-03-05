@@ -10,7 +10,7 @@ public class Repo {
 
     @JsonProperty("owner")
     public Owner ownerLogin;
-    
+    public boolean fork;
     public List<Branch> branches;
 
 }

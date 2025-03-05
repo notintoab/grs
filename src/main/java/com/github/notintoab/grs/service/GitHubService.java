@@ -1,6 +1,7 @@
 package com.github.notintoab.grs.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -21,12 +22,18 @@ public class GitHubService {
 
     public Uni<List<Repo>> getReposAndBranches(String ownerLogin) {
         return gitHubApiClient.getByOwnerLogin(ownerLogin)
-                .onItem().transformToUni(repos ->
-                        Uni.combine().all().unis(
-                            repos.stream().map(repo ->
+                .onItem().transform(repos -> 
+                    repos.stream()
+                         .filter(repo -> !repo.fork)     //
+                         .collect(Collectors.toList())  //
+                )
+                .onItem().transformToUni(repos -> 
+                    Uni.combine().all().unis(
+                        repos.stream().map(repo -> 
                             gitHubApiClient.getByRepoName(ownerLogin, repo.repoName)
-                            .onItem().invoke(branches -> repo.branches = branches))
-                            .toList()
-                        ).with(unused -> repos));
+                                .onItem().invoke(branches -> repo.branches = branches)
+                        ).toList()
+                    ).with(unused -> repos) 
+                );
     }
 }
