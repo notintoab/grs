@@ -34,10 +34,8 @@ src
 ## Technologies
 - Java
 - Quarkus 3.19.1
-- Maven
-- MicroProfile REST Client
-- Smallrye Mutiny 
-- Jackson JSON Processing
+- Maven 3.9.9
+- Jackson
 
 ## Features
 - Retrieve GitHub repositories for a specific owner
@@ -80,7 +78,6 @@ src
 ## Prerequisites
 - Java 11 or higher
 - Maven
-- Quarkus CLI
 
 ## Running the Application
 ### Development Mode
